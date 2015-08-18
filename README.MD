@@ -9,6 +9,8 @@ Specify the controller and the controller method to call when a route is matched
 To match wild cards use the phrase {any} in your route path. See example usage for proper usage. Currently Easy Router does not support limiting the wild card to numbers or strings only.
 
 ## Example Usage
+
+#### Typical Use of Easy Router
 ```php
 <?php
 
@@ -25,6 +27,26 @@ $routeInfo = $router->dispatch();
 
 $controller = new $routeInfo['controller'];
 $controller->$routeInfo['method']($routeInfo['variables']);
+```
+
+#### Store Routes In A File
+
+You can also store all of your routes in a seperate file for easy access. The following is an example filed saved as routes.php
+```php
+<?php
+
+return [
+
+    ['get', '/', 'Pages@showIndex'],
+    ['get', '/auth/login', 'Auth@showLogin'],
+    ['post', '/auth/login', 'Auth@handleLogin'],
+    ['get', '/profile/(any)', 'Pages@getProfile']
+];
+```
+
+Instead of using addRoute() we'll want to use the loadRoutes() method.
+```php
+$router->loadRoutes('routes.php');
 ```
 
 ### License
