@@ -83,6 +83,7 @@ class Router
 
         /* Don't process variables if not needed. Return empty variables */
         //TODO: Fix this. Only works on the index page.
+	// Priority: LOW
 	$variables = array();
         if ($strippedRoutePath != '/') {
             $variables = explode('/', $strippedRoutePath);
