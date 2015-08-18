@@ -12,21 +12,36 @@ To match wild cards use the phrase (any) in your route path. See example usage f
 
 #### Typical Use of Easy Router
 ```php
-<?php
-
 include (__DIR__ . '/vendor/autoload.php');
 
 $router = new \EasyRouter\Router();
 
 $router->addRoute('get', '/', 'ControllerToCall@methodToCall');
 $router->addRoute('get', '/about', 'PagesController@showAbout');
-$router->addRoute('get', '/about', 'PagesController@showContact');
-$router->addRoute('get', '/profile/(any)', 'UsersController@showProfile');
+$router->addRoute('get', '/contact', 'PagesController@showContact');
 
-$routeInfo = $router->dispatch();
 
-$controller = new $routeInfo['controller'];
-$controller->$routeInfo['method']($routeInfo['variables']);
+$router->dispatch();
+
+switch ($router->getStatus())
+{
+    case 'notfound':
+        echo '404 - No Valid Route Defined';
+        exit;
+        break;
+    case 'invalidmethod':
+        echo 'invalid method request';
+        exit;
+        break;
+    default:
+	$routeInfo = $router->getMatchedRoute();
+        
+	$controller = new $routeInfo['controller'];
+	$controller->$routeInfo['method']($routeInfo['variables']);
+        break;
+
+}
+
 ```
 
 #### Store Routes In A File

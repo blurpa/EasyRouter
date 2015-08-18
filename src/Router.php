@@ -5,30 +5,53 @@ namespace EasyRouter;
 class Router
 {
     private $routes = array();
-    private $uri;
+    private $server;
+    private $requestUri;
     private $requestMethod;
+    private $status;
+    private $matchedRoute = array();
 
-    public function __construct()
+    public function __construct($createFromGlobals = true, $server = '')
     {
-        $this->uri = $_SERVER['REQUEST_URI'];
-        $this->requestMethod = $_SERVER['REQUEST_METHOD'];
+        /**
+         * Set the server object. Set first parameter to false and add a server object for mock requests.
+         */
+        $this->server = ($createFromGlobals) ? $_SERVER : $server;
 
-        // Remove trailing slash from URL if it's there
-        if ($this->uri !== '/') {
-            $this->uri = rtrim($this->uri, '/');
-        }
+        /**
+         * When adding routes, lowercase is used for the request method so we
+         * must convert the request method from the server object to lowercase.
+         */
+        $this->requestMethod = strtolower($this->server['REQUEST_METHOD']);
+
+        /**
+         * Removes the trailing slash in the URI if it's there.
+         * Example:  http://www.website.com/about/
+         */
+        $this->requestUri = ($this->server['REQUEST_URI'] !== '/') ? rtrim($this->server['REQUEST_URI'], '/') : $this->server['REQUEST_URI'];
     }
 
+    /**
+     * Load the routes from a file instead of the running application.
+     *
+     * @param $routePath
+     */
     public function loadRoutes($routePath)
     {
-        $routes = require $routePath;
+        $routes = require __DIR__ . '/' . $routePath;
 
-        foreach ($routes as $route)
-        {
+        foreach ($routes as $route) {
             $this->addRoute($route[0], $route[1], $route[2]);
         }
     }
 
+    /**
+     * Add a route to the route array.
+     *
+     * @param $httpMethod
+     * @param $route
+     * @param $action
+     */
     public function addRoute($httpMethod, $route, $action)
     {
         $this->routes[] = array(
@@ -38,29 +61,34 @@ class Router
                                 );
     }
 
+    /**
+     * Processes the request uri.
+     *
+     * TODO: Make this more efficient.
+     * The following code works but only if the URI does not contain any wildcard variables ex: (any)
+     * $routesArrayKey = array_search($this->requestUri, array_column($this->routes, 'uri'));
+     *
+     * TODO: Assign limitations to wildcard routes. Example: (int) (chars)
+     */
     public function dispatch()
     {
-        /*
-         * TODO: Make this more efficient.
-         * The following code works but only if the URI does not contain any dynamic variables ex: (any)
-         * $routesArrayKey = array_search($this->uri, array_column($this->routes, 'uri'));
-         */
-
         $routeMatches = false;
         $methodMatches = false;
         $key = 0;
 
-        $requestMethod = strtolower($this->requestMethod);
-
+        /**
+         * Cycle through all of the routes in the routes array to locate a match.
+         * Replace (any) in the route with (\w+) for regex matching.
+         */
         foreach ($this->routes as $key => $route)
         {
             $partialPattern = str_replace('/', '\/', $route['route']);
             $partialPattern = str_replace('(any)', '(\w+)', $partialPattern);
             $pattern = "/^" . $partialPattern . '$/i';
 
-             if (preg_match($pattern, $this->uri) ) {
+             if (preg_match($pattern, $this->requestUri) ) {
                  $routeMatches = true;
-                 if ($this->routes[$key]['httpMethod'] == $requestMethod) {
+                 if ($this->routes[$key]['httpMethod'] == $this->requestMethod) {
                      $methodMatches = true;
                      break;
                  }
@@ -68,31 +96,59 @@ class Router
         }
 
         if (!$routeMatches) {
-            return array('controller'=>'\Framework\Controllers\Pages', 'method'=>'notFound', 'variables'=>array());
+            $this->status = 'notfound';
+            return;
         }
 
         if (!$methodMatches) {
-            return array('controller'=>'\Framework\Controllers\Pages', 'method'=>'badMethod', 'variables'=>array());
+            $this->status = 'invalidmethod';
+            return;
         }
 
-        /* Strip the variables from the URI for use by using (any) in the route */
+        $this->status = 'found';
+
+        /**
+         * Strip the wildcard variables from the URI for use by using (any) in the route.
+         * Bug exists!
+         * TODO: Fix this so it returns an empty array if no wildcard variables are used.
+         */
         $strippedRoutePath = strstr($this->routes[$key]['route'], '(any)', true);
-        $strippedRoutePath = substr_replace($this->uri,'',strpos($this->uri,$strippedRoutePath),strlen($strippedRoutePath));
-
-	//echo "<br>Stripped: " .$strippedRoutePath ."<br>";
-
-        /* Don't process variables if not needed. Return empty variables */
-        //TODO: Fix this. Only works on the index page.
-	// Priority: LOW
-	$variables = array();
+        $strippedRoutePath = substr_replace($this->requestUri,'',strpos($this->requestUri,$strippedRoutePath),strlen($strippedRoutePath));
+	    $variables = array();
         if ($strippedRoutePath != '/') {
             $variables = explode('/', $strippedRoutePath);
         }
 
+        /**
+         * Separate the controller to call and the method to call.
+         */
         $handle = explode('@', $this->routes[$key]['action']);
-        $controllerToCall = '\Framework\Controllers\\' . $handle[0];
+        $controllerToCall = $handle[0];
         $methodToCall = $handle[1];
-        return array('controller'=>$controllerToCall, 'method'=>$methodToCall, 'variables'=>$variables);
+
+        $this->matchedRoute = array('controller'=>$controllerToCall, 'method'=>$methodToCall, 'variables'=>$variables);
+
+        return;
+    }
+
+    /**
+     * Return 'found' if route found.
+     * Return 'notfound' if no route found.
+     * Return 'invalidmethod' if invalid method.
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Returns the matched route information. (Controller, Method, Wildcard Variables)
+     * @return array
+     */
+    public function getMatchedRoute()
+    {
+        return $this->matchedRoute;
     }
 
 }
