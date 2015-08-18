@@ -5,13 +5,13 @@ namespace EasyRouter;
 class Router
 {
     private $routes = array();
-    private $request;
     private $uri;
+    private $requestMethod;
 
-    public function __construct(Request $request)
+    public function __construct()
     {
-        $this->request = $request;
-        $this->uri = $this->request->getRequestUri();
+        $this->uri = $_SERVER['REQUEST_URI'];
+        $this->requestMethod = $_SERVER['REQUEST_METHOD'];
 
         // Remove trailing slash from URL if it's there
         if ($this->uri !== '/') {
@@ -50,7 +50,7 @@ class Router
         $methodMatches = false;
         $key = 0;
 
-        $requestMethod = strtolower($this->request->getRequestMethod());
+        $requestMethod = strtolower($this->requestMethod);
 
         foreach ($this->routes as $key => $route)
         {
@@ -79,8 +79,11 @@ class Router
         $strippedRoutePath = strstr($this->routes[$key]['route'], '(any)', true);
         $strippedRoutePath = substr_replace($this->uri,'',strpos($this->uri,$strippedRoutePath),strlen($strippedRoutePath));
 
+	//echo "<br>Stripped: " .$strippedRoutePath ."<br>";
+
         /* Don't process variables if not needed. Return empty variables */
-        $variables = array();
+        //TODO: Fix this. Only works on the index page.
+	$variables = array();
         if ($strippedRoutePath != '/') {
             $variables = explode('/', $strippedRoutePath);
         }
