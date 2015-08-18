@@ -1,0 +1,24 @@
+{
+    "name": "nickstuer/easy-router",
+    "type": "library",
+    "description": "A basic and easy to use router for PHP.",
+    "keywords": ["route","router"],
+    "homepage": "https://github.com/nickstuer/EasyRouter",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nick Stuer",
+            "email": "nickstuer@gmail.com",
+            "homepage": "http://www.nickstuer.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "EasyRouter\\": "src/"
+        }
+    }
+}
