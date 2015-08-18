@@ -29,4 +29,4 @@ $controller->$routeInfo['method']($routeInfo['variables']);
 
 ### License
 
-Laravel Socialite is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+Easy Router is licensed under the [MIT license](http://opensource.org/licenses/MIT)
