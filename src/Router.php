@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Crux;
+namespace EasyRouter;
 
 class Router
 {
