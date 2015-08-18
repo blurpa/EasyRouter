@@ -6,7 +6,7 @@ This is a basic PHP router mainly created for learning purposes.
 
 Specify the controller and the controller method to call when a route is matched using addRoute().
 
-To match wild cards use the phrase {any} in your route path. See example usage for proper usage. Currently Easy Router does not support limiting the wild card to numbers or strings only.
+To match wild cards use the phrase (any) in your route path. See example usage for more information. Currently Easy Router does not support limiting the wild card to numbers or strings only.
 
 ## Example Usage
 
@@ -21,7 +21,7 @@ $router = new \EasyRouter\Router();
 $router->addRoute('get', '/', 'ControllerToCall@methodToCall');
 $router->addRoute('get', '/about', 'PagesController@showAbout');
 $router->addRoute('get', '/about', 'PagesController@showContact');
-$router->addRoute('get', '/profile/{any}', 'UsersController@showProfile');
+$router->addRoute('get', '/profile/(any)', 'UsersController@showProfile');
 
 $routeInfo = $router->dispatch();
 
