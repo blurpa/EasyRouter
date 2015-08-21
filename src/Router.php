@@ -15,30 +15,24 @@ namespace EasyRouter;
 class Router
 {
     private $routes = array();
-    private $server;
-    private $strippedUri;
+    private $requestUri;
     private $requestMethod;
     private $status;
     private $matchedRoute = array();
 
-    public function __construct($createFromGlobals = true, $serverObject = '')
+    public function __construct($createFromGlobals = true, $requestMethod = '', $requestUri = '')
     {
         /**
-         * Set the server object. To mock requests: Set first parameter to false and add a server object.
+         * To mock requests: Set first parameter to false and add $requestMethod, $requestUri.
          */
-        $this->server = ($createFromGlobals) ? $_SERVER : $serverObject;
-
-        /**
-         * When adding routes, lowercase is used for the request method so we
-         * must convert the request method from the server object to lowercase.
-         */
-        $this->requestMethod = strtolower($this->server['REQUEST_METHOD']);
+        $this->requestMethod = ($createFromGlobals) ? strtolower($_SERVER['REQUEST_METHOD']) : $requestMethod;
+        $requestUri = ($createFromGlobals) ? $_SERVER['REQUEST_URI'] : $requestUri;
 
         /**
          * Removes the trailing slash in the URI if it's there.
          * Example:  http://www.website.com/about/
          */
-        $this->strippedUri = ($this->server['REQUEST_URI'] !== '/') ? rtrim($this->server['REQUEST_URI'], '/') : $this->server['REQUEST_URI'];
+        $this->requestUri = ($requestUri !== '/') ? rtrim($requestUri, '/') : $requestUri;
     }
 
     /**
@@ -99,7 +93,7 @@ class Router
 
             $regexPattern = "/^" . $partialPattern . '$/i';
 
-             if (preg_match($regexPattern, $this->strippedUri) ) {
+             if (preg_match($regexPattern, $this->requestUri) ) {
                  $routeMatches = true;
                  if ($this->routes[$key]['httpMethod'] == $this->requestMethod) {
                      $methodMatches = true;
@@ -135,7 +129,7 @@ class Router
         $strippedRoutePath = str_replace('/(abc)', '', $strippedRoutePath);
 
         if (strlen($strippedRoutePath) >= 1) {
-            $strippedRoutePath = substr_replace($this->strippedUri, '', strpos($this->strippedUri, $strippedRoutePath), strlen($strippedRoutePath));
+            $strippedRoutePath = substr_replace($this->requestUri, '', strpos($this->requestUri, $strippedRoutePath), strlen($strippedRoutePath));
         }
 
         $strippedRoutePath = ltrim($strippedRoutePath, '/');
