@@ -9,10 +9,10 @@ Specify the controller and the controller method to call when a route is matched
 
 This library does support multiple wildcard values, however, they must all be at the end of the route currently until fixed.
 
-To match wild cards use the following phrases in your route path.
-(any) - Matches any combination of upper case/lower case letters and numbers.
-(int) - Matches only integers.
-(abc) - Matches any combination of upper case/lower case letters.
+To match wild cards use the following phrases in your route path:
+* (any) - Matches any combination of upper case/lower case letters and numbers.
+*(int) - Matches only integers.
+* (abc) - Matches any combination of upper case/lower case letters.
 
 ## Example Usage
 
