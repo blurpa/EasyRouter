@@ -10,10 +10,13 @@ class testRouter extends \PHPUnit_Framework_TestCase
         $this->assertTrue($value);
     }
 
-    public function testRouterIndex()
+    /**
+     * @dataProvider providerTestRouter
+     */
+    public function testRouterIndex($route)
     {
-        $router = new EasyRouter\Router(false, 'get', '/');
-        $router->addRoute('get', '/', 'Controller@Method');
+        $router = new EasyRouter\Router(false, 'get', $route);
+        $router->addRoute('get', $route, 'Controller@Method');
 
         $router->dispatch();
         $routeInfo = $router->getMatchedRoute();
@@ -23,6 +26,18 @@ class testRouter extends \PHPUnit_Framework_TestCase
         $this->assertEquals($routeInfo['method'], 'Method');
         $this->assertEquals(array(), $routeInfo['variables']);
     }
+
+    public function providerTestRouter()
+    {
+        return array(
+            array('/'),
+            array('/test/test2'),
+            array('/testing/testing2/testing3/testing4/testing5/testing6/testing7')
+        );
+    }
+
+
+
 
     /**
      * @dataProvider providerTestRouterWildcard200Routes
