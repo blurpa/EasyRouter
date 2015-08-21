@@ -25,7 +25,7 @@ $router = new \EasyRouter\Router();
 $router->addRoute('get', '/', 'ControllerToCall@methodToCall');
 $router->addRoute('get', '/about', 'PagesController@showAbout');
 $router->addRoute('get', '/contact', 'PagesController@showContact');
-
+$router->addRoute('get', '/profile/(abc)', 'ProfileController@showProfile');
 
 $router->dispatch();
 
@@ -54,7 +54,6 @@ switch ($router->getStatus())
 You can also store all of your routes in a separate file for easy access. The following is an example file saved as routes.php
 ```php
 <?php
-
 return [
 
     ['get', '/', 'Pages@showIndex'],
