@@ -11,7 +11,7 @@ This library does support multiple wildcard values, however, they must all be at
 
 To match wild cards use the following phrases in your route path:
 * (any) - Matches any combination of upper case/lower case letters and numbers.
-*(int) - Matches only integers.
+* (int) - Matches only integers.
 * (abc) - Matches any combination of upper case/lower case letters.
 
 ## Example Usage
