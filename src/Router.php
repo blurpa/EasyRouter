@@ -124,6 +124,7 @@ class Router
          * Does work if all wildcards are at the end of the route.
          * Example: '/profile/show/(any)/(int)/(abc)'
          */
+
         $strippedRoutePath = str_replace('/(any)', '', $this->routes[$key]['route']);
         $strippedRoutePath = str_replace('/(int)', '', $strippedRoutePath);
         $strippedRoutePath = str_replace('/(abc)', '', $strippedRoutePath);
