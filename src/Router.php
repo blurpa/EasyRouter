@@ -118,7 +118,7 @@ class Router
          * Strip the wildcard variables from the URI for use by using (any),(int),(abc) in the route.
          *
          * TODO: Fix Bug
-         * Bug Description: Returns an incorrect variables array when a wildcard is not used at the end of a string.@global
+         * Bug Description: Returns an incorrect variables array when a wildcard is not used at the end of a string.
          * Example Fails: '/profile/(any)/show/(int)'  Returns: show,(WILDCARD VALUE)
          *
          * Does work if all wildcards are at the end of the route.
