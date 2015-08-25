@@ -10,7 +10,7 @@
  *
  */
 
-namespace NickStuer\EasyRouter;
+namespace Blurpa\EasyRouter;
 
 class Router
 {

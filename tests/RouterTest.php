@@ -15,7 +15,7 @@ class testRouter extends \PHPUnit_Framework_TestCase
      */
     public function testRouterIndex($route)
     {
-        $router = new \NickStuer\EasyRouter\Router(false, 'get', $route);
+        $router = new \Blurpa\EasyRouter\Router(false, 'get', $route);
         $router->addRoute('get', $route, 'Controller@Method');
 
         $router->dispatch();
@@ -44,7 +44,7 @@ class testRouter extends \PHPUnit_Framework_TestCase
      */
     public function testRouterWildcard200($wildcard, $route, $variables)
     {
-        $router = new \NickStuer\EasyRouter\Router(false, 'get', $route);
+        $router = new \Blurpa\EasyRouter\Router(false, 'get', $route);
         $router->addRoute('get', $wildcard, 'Controller@Method');
 
         $router->dispatch();
@@ -72,7 +72,7 @@ class testRouter extends \PHPUnit_Framework_TestCase
      */
     public function testRouterWildcard404($wildcard, $route)
     {
-        $router = new \NickStuer\EasyRouter\Router(false, 'get', $route);
+        $router = new \Blurpa\EasyRouter\Router(false, 'get', $route);
         $router->addRoute('get', $wildcard, 'Controller@Method');
 
         $router->dispatch();
@@ -93,7 +93,7 @@ class testRouter extends \PHPUnit_Framework_TestCase
      */
     public function testRouterMultipleWildcards200($wildcard, $route, $variables)
     {
-        $router = new \NickStuer\EasyRouter\Router(false, 'get', $route);
+        $router = new \Blurpa\EasyRouter\Router(false, 'get', $route);
         $router->addRoute('get', $wildcard, 'Controller@Method');
 
         $router->dispatch();
@@ -122,7 +122,7 @@ class testRouter extends \PHPUnit_Framework_TestCase
      */
     public function testRouterMultipleWildcards404($wildcard, $route)
     {
-        $router = new \NickStuer\EasyRouter\Router(false, 'get', $route);
+        $router = new \Blurpa\EasyRouter\Router(false, 'get', $route);
         $router->addRoute('get', $wildcard, 'Controller@Method');
 
         $router->dispatch();
