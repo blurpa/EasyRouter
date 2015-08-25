@@ -10,7 +10,7 @@
  *
  */
 
-namespace EasyRouter;
+namespace NickStuer\EasyRouter;
 
 class Router
 {
@@ -193,7 +193,7 @@ class Router
     }
 
     /**
-     * 
+     *
      * Returns the router status.
      *
      * Return '200' if route found.
