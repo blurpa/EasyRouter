@@ -14,17 +14,51 @@ namespace EasyRouter;
 
 class Router
 {
+    /**
+     * @var array
+     *
+     */
     private $routes = array();
+
+    /**
+     * @var string
+     *
+     */
     private $requestUri;
+
+    /**
+     * @var string
+     *
+     */
     private $requestMethod;
+
+    /**
+     * @var int
+     *
+     */
     private $status;
+
+    /**
+     * @var array
+     *
+     */
     private $matchedRoute = array();
 
+    /**
+     *
+     * Constructor
+     *
+     * To mock requests: Set first parameter to false and add $requestMethod, $requestUri.
+     *
+     * @param bool|true $createFromGlobals
+     *
+     * @param string $requestMethod
+     *
+     * @param string $requestUri
+     *
+     */
     public function __construct($createFromGlobals = true, $requestMethod = '', $requestUri = '')
     {
-        /**
-         * To mock requests: Set first parameter to false and add $requestMethod, $requestUri.
-         */
         $this->requestMethod = ($createFromGlobals) ? strtolower($_SERVER['REQUEST_METHOD']) : $requestMethod;
         $requestUri = ($createFromGlobals) ? $_SERVER['REQUEST_URI'] : $requestUri;
 
@@ -36,9 +70,11 @@ class Router
     }
 
     /**
+     *
      * Load the routes from a file instead of the running application.
      *
-     * @param $routePath
+     * @param string $routePath
+     *
      */
     public function loadRoutes($routePath)
     {
@@ -50,11 +86,15 @@ class Router
     }
 
     /**
+     *
      * Add a route to the route array.
      *
-     * @param $httpMethod
-     * @param $route
-     * @param $action
+     * @param string $httpMethod
+     *
+     * @param string $route
+     *
+     * @param string $action
+     *
      */
     public function addRoute($httpMethod, $route, $action)
     {
@@ -66,11 +106,13 @@ class Router
     }
 
     /**
+     *
      * Processes the request uri.
      *
      * TODO: Make this more efficient.
      * The following code works but only if the URI does not contain any wildcard variables ex: (any)
      * $routesArrayKey = array_search($this->requestUri, array_column($this->routes, 'uri'));
+     *
      */
     public function dispatch()
     {
@@ -148,15 +190,18 @@ class Router
         $methodToCall = $handle[1];
 
         $this->matchedRoute = array('controller'=>$controllerToCall, 'method'=>$methodToCall, 'variables'=>$variables);
-
-        return;
     }
 
     /**
+     * 
+     * Returns the router status.
+     *
      * Return '200' if route found.
      * Return '404' if no route found.
      * Return '404' if invalid request method.
-     * @return string
+     *
+     * @return int
+     *
      */
     public function getStatus()
     {
@@ -164,8 +209,11 @@ class Router
     }
 
     /**
+     *
      * Returns the matched route information. (Controller, Method, Wildcard Variables)
+     *
      * @return array
+     *
      */
     public function getMatchedRoute()
     {
