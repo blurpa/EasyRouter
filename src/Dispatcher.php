@@ -4,9 +4,25 @@ namespace NickStuer\EasyRouter;
 
 class Dispatcher
 {
+    /**
+     * @var Collection
+     */
     private $collection;
+
+    /**
+     * @var string
+     */
     private $requestMethod;
+
+    /**
+     * @var string
+     */
     private $requestUri;
+
+    /**
+     * @var string
+     */
+    private $matchedRoute;
 
     /**
      * Constructor
@@ -100,7 +116,7 @@ class Dispatcher
          * Example: '/profile/show/(any)/(int)/(abc)'
          */
 
-        $strippedRoutePath = str_replace('/(any)', '', $this->routes[$key]['route']);
+        $strippedRoutePath = str_replace('/(any)', '', $this->collection->getRoutes()[$key]['route']);
         $strippedRoutePath = str_replace('/(int)', '', $strippedRoutePath);
         $strippedRoutePath = str_replace('/(abc)', '', $strippedRoutePath);
 
@@ -118,7 +134,7 @@ class Dispatcher
         /**
          * Separate the controller to call and the method to call.
          */
-        $handle = explode('@', $this->routes[$key]['action']);
+        $handle = explode('@', $this->collection->getRoutes()[$key]['action']);
         $controllerToCall = $handle[0];
         $methodToCall = $handle[1];
 
