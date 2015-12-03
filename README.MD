@@ -22,15 +22,16 @@ To match wild cards use the following phrases in your route path:
 ```php
 include (__DIR__ . '/vendor/autoload.php');
 
-$router = new \NickStuer\EasyRouter\Router();
+$collection = new NickStuer\EasyRouter\Collection();
 
-$router->addRoute('get', '/', 'ControllerToCall@methodToCall');
-$router->addRoute('get', '/about', 'PagesController@showAbout');
-$router->addRoute('get', '/contact', 'PagesController@showContact');
-$router->addRoute('get', '/profile/(abc)', 'ProfileController@showProfile');
+$collection->addRoute('get', '/', 'ControllerToCall@methodToCall');
+$collection->addRoute('get', '/about', 'PagesController@showAbout');
+$collection->addRoute('get', '/contact', 'PagesController@showContact');
+$collection->addRoute('get', '/profile/(abc)', 'ProfileController@showProfile');
 
+$dispatcher = new NickStuer\EasyRouter\Dispatcher($collection);
 try {
-$router->dispatch();
+    $dispatcher->dispatch();
 } catch (\NickStuer\EasyRouter\Exceptions\RouteNotFoundException $e) {
     echo "Route Not Found - 404";
     exit;
@@ -39,7 +40,8 @@ $router->dispatch();
     exit;
 }
 
-$routeInfo = $router->getMatchedRoute();
+
+$routeInfo = $dispatcher->getMatchedRoute();
 
 $controller = new $routeInfo['controller'];
 $controller->$routeInfo['method']($routeInfo['variables']);
