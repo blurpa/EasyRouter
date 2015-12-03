@@ -1,9 +1,9 @@
 {
-    "name": "blurpa/easy-router",
+    "name": "nickstuer/easy-router",
     "type": "library",
     "description": "A basic and easy to use router for PHP.",
     "keywords": ["route","router"],
-    "homepage": "https://github.com/blurpa/EasyRouter",
+    "homepage": "https://github.com/nickstuer/EasyRouter",
     "license": "MIT",
     "authors": [
         {
@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Blurpa\\EasyRouter\\": "src/"
+            "NickStuer\\EasyRouter\\": "src/"
         }
     }
 }
