@@ -29,12 +29,7 @@ class Router
      */
     private $requestMethod;
 
-    /**
-     * @var int
-     */
-    private $status;
-
-    /**
+    /*
      * @var array
      */
     private $matchedRoute = array();
@@ -42,7 +37,7 @@ class Router
     /**
      * Constructor
      *
-     * To mock requests: Set first parameter to false and add $requestMethod, $requestUri.
+     * To mock requests: Set $createFromGlobals to false and add a $requestMethod and $requestUri.
      *
      * @param bool|true $createFromGlobals
      *
@@ -52,12 +47,19 @@ class Router
      */
     public function __construct($createFromGlobals = true, $requestMethod = '', $requestUri = '')
     {
-        $this->requestMethod = ($createFromGlobals) ? strtolower($_SERVER['REQUEST_METHOD']) : $requestMethod;
+        $this->requestMethod = strtolower(($createFromGlobals) ? $_SERVER['REQUEST_METHOD'] : $requestMethod);
         $requestUri = ($createFromGlobals) ? $_SERVER['REQUEST_URI'] : $requestUri;
 
         /**
+         * Removes GET variables from the URI
+         * Example: http://www.website.com/about?name=Nick returns /about
+         */
+        $requestUri = parse_url($requestUri, PHP_URL_PATH);
+
+        /**
          * Removes the trailing slash in the URI if it's there.
-         * Example:  http://www.website.com/about/
+         * Example:  http://www.website.com/about/ returns /about
+         * Example: http://www.website.com returns /
          */
         $this->requestUri = ($requestUri !== '/') ? rtrim($requestUri, '/') : $requestUri;
     }
@@ -132,17 +134,12 @@ class Router
         }
 
         if (!$routeMatches) {
-            throw new Exceptions\RouteNotFoundException('test');
-            $this->status = '404';
-            return;
+            throw new Exceptions\RouteNotFoundException();
         }
 
         if (!$methodMatches) {
-            $this->status = '400';
-            return;
+            throw new Exceptions\MethodNotFoundException();
         }
-
-        $this->status = '200';
 
         /**
          * Strip the wildcard variables from the URI for use by using (any),(int),(abc) in the route.
@@ -178,20 +175,6 @@ class Router
         $methodToCall = $handle[1];
 
         $this->matchedRoute = array('controller'=>$controllerToCall, 'method'=>$methodToCall, 'variables'=>$variables);
-    }
-
-    /**
-     * Returns the router status.
-     *
-     * Return '200' if route found.
-     * Return '404' if no route found.
-     * Return '404' if invalid request method.
-     *
-     * @return int
-     */
-    public function getStatus()
-    {
-        return $this->status;
     }
 
     /**

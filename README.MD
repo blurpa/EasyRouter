@@ -20,33 +20,27 @@ To match wild cards use the following phrases in your route path:
 ```php
 include (__DIR__ . '/vendor/autoload.php');
 
-$router = new \EasyRouter\Router();
+$router = new \NickStuer\EasyRouter\Router();
 
 $router->addRoute('get', '/', 'ControllerToCall@methodToCall');
 $router->addRoute('get', '/about', 'PagesController@showAbout');
 $router->addRoute('get', '/contact', 'PagesController@showContact');
 $router->addRoute('get', '/profile/(abc)', 'ProfileController@showProfile');
 
+try {
 $router->dispatch();
-
-switch ($router->getStatus())
-{
-    case '404':
-        echo '404 - Not Found';
-        exit;
-        break;
-    case '400':
-        echo '400 - Bad Request';
-        exit;
-        break;
-    default:
-	    $routeInfo = $router->getMatchedRoute();
-        
-	    $controller = new $routeInfo['controller'];
-	    $controller->$routeInfo['method']($routeInfo['variables']);
-        break;
+} catch (\NickStuer\EasyRouter\Exceptions\RouteNotFoundException $e) {
+    echo "Route Not Found - 404";
+    exit;
+} catch (\NickStuer\EasyRouter\Exceptions\MethodNotFoundException $e) {
+    echo "Method Not Found";
+    exit;
 }
 
+$routeInfo = $router->getMatchedRoute();
+
+$controller = new $routeInfo['controller'];
+$controller->$routeInfo['method']($routeInfo['variables']);
 ```
 
 #### Store Routes In A File
