@@ -12,7 +12,6 @@
 
 namespace NickStuer\EasyRouter;
 
-
 class Router
 {
     /**
@@ -133,7 +132,7 @@ class Router
         }
 
         if (!$routeMatches) {
-            throw new \NickStuer\EasyRouter\RouteNotFoundException('test');
+            throw new Exceptions\RouteNotFoundException('test');
             $this->status = '404';
             return;
         }
