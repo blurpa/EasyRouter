@@ -3,7 +3,9 @@
 ## Introduction
 
 This is a basic PHP router mainly created for learning purposes. This works well for when you don't want the router
-function of your application tied so tightly to the rest of your application. It allows easier to read code and usability.
+function of your application tied so tightly to the rest of your application. It provides easy to read code as well.
+
+If you have any suggestions or bug fixes please feel free to let me know.
 
 Specify the controller and the controller method to call when a route is matched using addRoute().
 
