@@ -61,6 +61,7 @@ class Dispatcher
 
 
     /**
+     *
      * Processes the request uri.
      *
      * TODO: Make this more efficient.
@@ -69,9 +70,11 @@ class Dispatcher
      */
     public function dispatch()
     {
+        /**
+         * @var $route Route
+         */
         $routeMatches = false;
         $methodMatches = false;
-        $key = 0;
 
         /**
          * Cycle through all of the routes in the routes array to locate a match.
@@ -79,9 +82,9 @@ class Dispatcher
          * Replace (int) in the route with (\d+) for regex matching.
          * Replace (abc) in the route with ([A-Za-z]+) for regex matching.
          */
-        foreach ($this->collection->getRoutes() as $key => $route)
+        foreach ($this->collection->getRoutes() as $route)
         {
-            $partialPattern = str_replace('/', '\/', $route['route']);
+            $partialPattern = str_replace('/', '\/', $route->getRoute());
             $partialPattern = str_replace('(any)', '(\w+)', $partialPattern);
             $partialPattern = str_replace('(int)', '(\d+)', $partialPattern);
             $partialPattern = str_replace('(abc)', '([A-Za-z]+)', $partialPattern);
@@ -90,7 +93,7 @@ class Dispatcher
 
             if (preg_match($regexPattern, $this->requestUri) ) {
                 $routeMatches = true;
-                if ($this->collection->getRoutes()[$key]['httpMethod'] == $this->requestMethod) {
+                if ($route->getHttpMethod() == $this->requestMethod) {
                     $methodMatches = true;
                     break;
                 }
@@ -116,7 +119,7 @@ class Dispatcher
          * Example: '/profile/show/(any)/(int)/(abc)'
          */
 
-        $strippedRoutePath = str_replace('/(any)', '', $this->collection->getRoutes()[$key]['route']);
+        $strippedRoutePath = str_replace('/(any)', '', $route->getRoute());
         $strippedRoutePath = str_replace('/(int)', '', $strippedRoutePath);
         $strippedRoutePath = str_replace('/(abc)', '', $strippedRoutePath);
 
@@ -134,11 +137,9 @@ class Dispatcher
         /**
          * Separate the controller to call and the method to call.
          */
-        $handle = explode('@', $this->collection->getRoutes()[$key]['action']);
-        $controllerToCall = $handle[0];
-        $methodToCall = $handle[1];
+        $action = explode('@', $route->getAction());
 
-        $this->matchedRoute = array('controller'=>$controllerToCall, 'method'=>$methodToCall, 'variables'=>$variables);
+        $this->matchedRoute = array('controller'=>$action[0], 'method'=>$action[1], 'variables'=>$variables);
     }
 
     /**

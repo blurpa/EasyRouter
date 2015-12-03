@@ -72,10 +72,6 @@ class Collection
             throw new Exceptions\RouteInvalidException('Method Not Allowed');
         }
 
-        $this->routes[] = array(
-                                    "httpMethod" => $httpMethod,
-                                    "route" => $route,
-                                    "action" => $action
-                                );
+        $this->routes[] = new Route($httpMethod, $route, $action);
     }
 }
