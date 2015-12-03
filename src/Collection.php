@@ -12,7 +12,7 @@ class Collection
     /**
      * @var string
      */
-    private $allowedMethods = array('get','post');
+    private $allowedMethods = array('get', 'post');
 
     /*
      * @var array

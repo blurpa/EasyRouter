@@ -5,17 +5,17 @@ namespace NickStuer\EasyRouter;
 class Route
 {
     /**
-     * @var string $httpMethod
+     * @var string
      */
     private $httpMethod;
 
     /**
-     * @var string $route
+     * @var string
      */
     private $route;
 
     /**
-     * @var string $action
+     * @var string
      */
     private $action;
 
