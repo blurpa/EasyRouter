@@ -12,23 +12,28 @@ class Collection
     /**
      * @var string
      */
-    private $requestUri;
+    private $allowedMethods = array('get','post');
 
-    /**
-     * @var string
-     */
-    private $requestMethod;
 
     /*
      * @var array
      */
     private $matchedRoute = array();
 
+    /**
+     * Collection constructor.
+     *
+     */
     public function __construct()
     {
 
     }
 
+    /**
+     * Returns the collected routes array.
+     *
+     * @return array
+     */
     public function getRoutes()
     {
         return $this->routes;
@@ -56,9 +61,15 @@ class Collection
      * @param string $route
      *
      * @param string $action
+     *
+     * @throws Exceptions\RouteInvalidException
      */
     public function addRoute($httpMethod, $route, $action)
     {
+        if (!in_array($httpMethod, $this->allowedMethods)) {
+            throw new Exceptions\RouteInvalidException;
+        }
+
         $this->routes[] = array(
                                     "httpMethod" => $httpMethod,
                                     "route" => $route,
