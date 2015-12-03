@@ -14,7 +14,6 @@ class Collection
      */
     private $allowedMethods = array('get','post');
 
-
     /*
      * @var array
      */
@@ -23,10 +22,13 @@ class Collection
     /**
      * Collection constructor.
      *
+     * @param string $routePath
      */
-    public function __construct()
+    public function __construct($routePath = '')
     {
-
+        if ($routePath !== '') {
+            $this->loadRoutes($routePath);
+        }
     }
 
     /**
@@ -44,7 +46,7 @@ class Collection
      *
      * @param string $routePath
      */
-    public function loadRoutes($routePath)
+    private function loadRoutes($routePath)
     {
         $routes = require __DIR__ . '/' . $routePath;
 
@@ -67,7 +69,7 @@ class Collection
     public function addRoute($httpMethod, $route, $action)
     {
         if (!in_array($httpMethod, $this->allowedMethods)) {
-            throw new Exceptions\RouteInvalidException;
+            throw new Exceptions\RouteInvalidException('Method Not Allowed');
         }
 
         $this->routes[] = array(
