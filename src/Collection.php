@@ -14,11 +14,6 @@ class Collection
      */
     private $allowedMethods = array('get', 'post');
 
-    /*
-     * @var array
-     */
-    private $matchedRoute = array();
-
     /**
      * Collection constructor.
      *
