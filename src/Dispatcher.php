@@ -7,7 +7,7 @@ class Dispatcher
     /**
      * @var RouteManager
      */
-    private $collection;
+    private $manager;
 
     /**
      * @var string
@@ -29,7 +29,7 @@ class Dispatcher
      *
      * To mock requests: Set $createFromGlobals to false and add a $requestMethod and $requestUri.
      *
-     * @param RouteManager $collection
+     * @param RouteManager $manager
      *
      * @param bool|true $createFromGlobals
      *
@@ -37,9 +37,9 @@ class Dispatcher
      *
      * @param string $requestUri
      */
-    public function __construct(RouteManager $collection, $createFromGlobals = true, $requestMethod = '', $requestUri = '')
+    public function __construct(RouteManager $manager, $createFromGlobals = true, $requestMethod = '', $requestUri = '')
     {
-        $this->collection = $collection;
+        $this->manager = $manager;
         $this->requestMethod = strtolower(($createFromGlobals) ? $_SERVER['REQUEST_METHOD'] : $requestMethod);
         $requestUri = ($createFromGlobals) ? $_SERVER['REQUEST_URI'] : $requestUri;
 
@@ -82,7 +82,7 @@ class Dispatcher
          * Replace (int) in the route with (\d+) for regex matching.
          * Replace (abc) in the route with ([A-Za-z]+) for regex matching.
          */
-        foreach ($this->collection->getRoutes() as $route)
+        foreach ($this->manager->getRoutes() as $route)
         {
             $partialPattern = str_replace('/', '\/', $route->getPath());
             $partialPattern = str_replace('(any)', '(\w+)', $partialPattern);
