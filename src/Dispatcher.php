@@ -105,7 +105,7 @@ class Dispatcher
         }
 
         if (!$methodMatches) {
-            throw new Exceptions\MethodNotFoundException();
+            throw new Exceptions\MethodNotAllowedException();
         }
 
         /**
