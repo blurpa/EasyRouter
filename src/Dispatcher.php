@@ -5,7 +5,7 @@ namespace NickStuer\EasyRouter;
 class Dispatcher
 {
     /**
-     * @var Collection
+     * @var RouteManager
      */
     private $collection;
 
@@ -29,7 +29,7 @@ class Dispatcher
      *
      * To mock requests: Set $createFromGlobals to false and add a $requestMethod and $requestUri.
      *
-     * @param Collection $collection
+     * @param RouteManager $collection
      *
      * @param bool|true $createFromGlobals
      *
@@ -37,7 +37,7 @@ class Dispatcher
      *
      * @param string $requestUri
      */
-    public function __construct(Collection $collection, $createFromGlobals = true, $requestMethod = '', $requestUri = '')
+    public function __construct(RouteManager $collection, $createFromGlobals = true, $requestMethod = '', $requestUri = '')
     {
         $this->collection = $collection;
         $this->requestMethod = strtolower(($createFromGlobals) ? $_SERVER['REQUEST_METHOD'] : $requestMethod);

@@ -2,7 +2,7 @@
 
 namespace NickStuer\EasyRouter;
 
-class Collection
+class RouteManager
 {
     /**
      * @var array

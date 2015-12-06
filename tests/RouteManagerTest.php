@@ -3,13 +3,13 @@
 class testCollection extends \PHPUnit_Framework_TestCase
 {
 
-    public function testNewCollection()
+    public function testRouteManager()
     {
         $httpMethod = 'get';
         $path = '/test';
         $action = 'test@test';
 
-        $collection = new \NickStuer\EasyRouter\Collection();
+        $collection = new \NickStuer\EasyRouter\RouteManager();
         $collection->addRoute($httpMethod, $path, $action);
 
         $routes = $collection->getRoutes();

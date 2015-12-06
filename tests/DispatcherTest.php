@@ -9,7 +9,7 @@ class testDispatcher extends \PHPUnit_Framework_TestCase
      */
     public function testRoutes($route)
     {
-        $collection = new \NickStuer\EasyRouter\Collection();
+        $collection = new \NickStuer\EasyRouter\RouteManager();
         $collection->addRoute('get', $route, 'Controller@Method');
         $dispatcher = new \NickStuer\EasyRouter\Dispatcher($collection, false, 'get', $route);
 
