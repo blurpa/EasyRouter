@@ -1,9 +1,9 @@
 <?php
 
-class testCollection extends \PHPUnit_Framework_TestCase
+class testRouteManager extends \PHPUnit_Framework_TestCase
 {
 
-    public function testRouteManager()
+    public function testNewRouteManager()
     {
         $httpMethod = 'get';
         $path = '/test';
@@ -15,7 +15,7 @@ class testCollection extends \PHPUnit_Framework_TestCase
         $routes = $collection->getRoutes();
 
         $this->assertEquals($httpMethod, $routes[0]->getHttpMethod());
-        $this->assertEquals($path, $routes[0]->getRoute());
+        $this->assertEquals($path, $routes[0]->getPath());
         $this->assertEquals($action, $routes[0]->getAction());
     }
 

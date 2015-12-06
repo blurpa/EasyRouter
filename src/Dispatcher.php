@@ -84,7 +84,7 @@ class Dispatcher
          */
         foreach ($this->collection->getRoutes() as $route)
         {
-            $partialPattern = str_replace('/', '\/', $route->getRoute());
+            $partialPattern = str_replace('/', '\/', $route->getPath());
             $partialPattern = str_replace('(any)', '(\w+)', $partialPattern);
             $partialPattern = str_replace('(int)', '(\d+)', $partialPattern);
             $partialPattern = str_replace('(abc)', '([A-Za-z]+)', $partialPattern);
@@ -119,7 +119,7 @@ class Dispatcher
          * Example: '/profile/show/(any)/(int)/(abc)'
          */
 
-        $strippedRoutePath = str_replace('/(any)', '', $route->getRoute());
+        $strippedRoutePath = str_replace('/(any)', '', $route->getPath());
         $strippedRoutePath = str_replace('/(int)', '', $strippedRoutePath);
         $strippedRoutePath = str_replace('/(abc)', '', $strippedRoutePath);
 

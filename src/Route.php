@@ -5,17 +5,17 @@ namespace NickStuer\EasyRouter;
 class Route
 {
     /**
-     * @var string
+     * @var string $httpMethod
      */
     private $httpMethod;
 
     /**
-     * @var string
+     * @var string $path
      */
-    private $route;
+    private $path;
 
     /**
-     * @var string
+     * @var string $action
      */
     private $action;
 
@@ -23,13 +23,13 @@ class Route
      * Route constructor.
      *
      * @param $httpMethod
-     * @param $route
+     * @param $path
      * @param $action
      */
-    public function __construct($httpMethod, $route, $action)
+    public function __construct($httpMethod, $path, $action)
     {
         $this->httpMethod = $httpMethod;
-        $this->route = $route;
+        $this->path = $path;
         $this->action = $action;
     }
 
@@ -44,9 +44,9 @@ class Route
     /**
      * @return string
      */
-    public function getRoute()
+    public function getPath()
     {
-        return $this->route;
+        return $this->path;
     }
 
     /**
