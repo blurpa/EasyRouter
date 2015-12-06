@@ -15,7 +15,7 @@ class RouteManager
     private $allowedMethods = array('get', 'post');
 
     /**
-     * Collection constructor.
+     * RouteManager constructor.
      *
      * @param string $routePath
      */
@@ -27,7 +27,7 @@ class RouteManager
     }
 
     /**
-     * Returns the collected routes array.
+     * Returns the collected array of Routes.
      *
      * @return array
      */
@@ -39,11 +39,11 @@ class RouteManager
     /**
      * Load the routes from a file instead of the running application.
      *
-     * @param string $routePath
+     * @param string $routesFilePath
      */
-    private function loadRoutes($routePath)
+    private function loadRoutes($routesFilePath)
     {
-        $routes = require __DIR__ . '/' . $routePath;
+        $routes = require __DIR__ . '/' . $routesFilePath;
 
         foreach ($routes as $route) {
             $this->addRoute($route[0], $route[1], $route[2]);
@@ -55,18 +55,18 @@ class RouteManager
      *
      * @param string $httpMethod
      *
-     * @param string $route
+     * @param string $path
      *
      * @param string $action
      *
      * @throws Exceptions\RouteInvalidException
      */
-    public function addRoute($httpMethod, $route, $action)
+    public function addRoute($httpMethod, $path, $action)
     {
         if (!in_array($httpMethod, $this->allowedMethods)) {
             throw new Exceptions\RouteInvalidException('Method Not Allowed');
         }
 
-        $this->routes[] = new Route($httpMethod, $route, $action);
+        $this->routes[] = new Route($httpMethod, $path, $action);
     }
 }
