@@ -2,7 +2,7 @@
 
 namespace NickStuer\EasyRouter;
 
-class Route
+class Route implements RouteInterface
 {
     /**
      * @var string $httpMethod
