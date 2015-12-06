@@ -62,9 +62,13 @@ return [
 ];
 ```
 
-Instead of using addRoute() in our main application we'll want to use the loadRoutes() method.
+Instead of using addRoute() in our main application we'll want to use the loadRoutes() method or place the routes file in the collection constructor.
 ```php
-$router->loadRoutes('routes.php');
+$collection->loadRoutes('routes.php');
+
+OR
+
+$collection = new \NickStuer\EasyRouter\Collection({$FilePath});
 ```
 
 ## License
