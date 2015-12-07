@@ -24,20 +24,20 @@ To match wild cards use the following phrases in your route path:
 ```php
 include (__DIR__ . '/vendor/autoload.php');
 
-$collection = new \NickStuer\EasyRouter\Collection();
+$routeManager = new \NickStuer\EasyRouter\RouteManager();
 $dispatcher = new \NickStuer\EasyRouter\Dispatcher($collection);
 
-$collection->addRoute('get', '/', 'ControllerToCall@methodToCall');
-$collection->addRoute('get', '/about', 'PagesController@showAbout');
-$collection->addRoute('get', '/contact', 'PagesController@showContact');
-$collection->addRoute('get', '/profile/(abc)', 'ProfileController@showProfile');
+$routeManager->addRoute('get', '/', 'ControllerToCall@methodToCall');
+$routeManager->addRoute('get', '/about', 'PagesController@showAbout');
+$routeManager->addRoute('get', '/contact', 'PagesController@showContact');
+$routeManager->addRoute('get', '/profile/(abc)', 'ProfileController@showProfile');
 
 try {
     $dispatcher->dispatch();
 } catch (\NickStuer\EasyRouter\Exceptions\RouteNotFoundException $e) {
     echo "Route Not Found - 404";
     exit;
-} catch (\NickStuer\EasyRouter\Exceptions\MethodNotFoundException $e) {
+} catch (\NickStuer\EasyRouter\Exceptions\MethodNotAllowedException $e) {
     echo "Method Not Allowed - 405";
     exit;
 }
@@ -68,7 +68,8 @@ $collection->loadRoutes('routes.php');
 
 OR
 
-$collection = new \NickStuer\EasyRouter\Collection({$FilePath});
+$filePath = __DIR__ . '/routes.php';
+$collection = new \NickStuer\EasyRouter\RouteManager($filePath);
 ```
 
 ## License
