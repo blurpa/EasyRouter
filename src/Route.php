@@ -5,6 +5,11 @@ namespace NickStuer\EasyRouter;
 class Route implements RouteInterface
 {
     /**
+     * @var string
+     */
+    private $allowedMethods = array('get', 'post');
+
+    /**
      * @var string $httpMethod
      */
     private $httpMethod;
@@ -55,5 +60,12 @@ class Route implements RouteInterface
     public function getAction()
     {
         return $this->action;
+    }
+
+    public function verify()
+    {
+        if (!in_array($this->httpMethod, $this->allowedMethods)) {
+            throw new Exceptions\MethodNotAllowedException;
+        }
     }
 }

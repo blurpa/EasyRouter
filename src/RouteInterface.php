@@ -18,4 +18,6 @@ interface RouteInterface
     public function getPath();
 
     public function getAction();
+
+    public function verify();
 }
