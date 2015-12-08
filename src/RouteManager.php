@@ -53,20 +53,10 @@ class RouteManager
     /**
      * Add a route to the route array.
      *
-     * @param string $httpMethod
-     *
-     * @param string $path
-     *
-     * @param string $action
-     *
-     * @throws Exceptions\RouteInvalidException
+     * @param Route $route
      */
-    public function addRoute($httpMethod, $path, $action)
+    public function addRoute(Route $route)
     {
-        if (!in_array($httpMethod, $this->allowedMethods)) {
-            throw new Exceptions\RouteInvalidException('Method Not Allowed');
-        }
-
-        $this->routes[] = new Route($httpMethod, $path, $action);
+        $this->routes[] = $route;
     }
 }
