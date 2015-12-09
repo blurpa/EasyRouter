@@ -24,6 +24,8 @@ To match wild cards use the following phrases in your route path:
 ```php
 include (__DIR__ . '/vendor/autoload.php');
 
+use \NickStuer\EasyRouter\Route as Route;
+
 $routeManager = new \NickStuer\EasyRouter\RouteManager();
 $dispatcher = new \NickStuer\EasyRouter\Dispatcher($collection);
 
@@ -45,9 +47,9 @@ try {
 $routeInfo = $dispatcher->getMatchedRoute();
 
 /**
-* It's recommended that you use a DI container to create the controller class to
-* automatically insert the required dependencies.
-*/
+ * It's recommended that you use a DI container to create the controller class to
+ * automatically insert the required dependencies.
+ */
 $controller = new $routeInfo['controller'];
 $method = $routeInfo['method'];
 $controller->$method($routeInfo['variables']);
