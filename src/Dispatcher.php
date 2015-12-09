@@ -61,7 +61,6 @@ class Dispatcher
 
 
     /**
-     *
      * Processes the request uri.
      *
      * TODO: Make this more efficient.
