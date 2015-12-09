@@ -11,8 +11,6 @@ If you have any suggestions or bug fixes please feel free to let me know.
 
 Specify the controller and the controller method to call when a route is matched using addRoute().
 
-This library does support multiple wildcard values, however, they must all be at the end of the route currently until fixed. '/(abc)/profile' doesn't work but '/profile/(abc)' does work.
-
 To match wild cards use the following phrases in your route path:
 * (any) - Matches any combination of upper case/lower case letters and numbers.
 * (int) - Matches only integers.
