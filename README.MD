@@ -27,7 +27,7 @@ include (__DIR__ . '/vendor/autoload.php');
 use \NickStuer\EasyRouter\Route as Route;
 
 $routeManager = new \NickStuer\EasyRouter\RouteManager();
-$dispatcher = new \NickStuer\EasyRouter\Dispatcher($collection);
+$dispatcher = new \NickStuer\EasyRouter\Dispatcher($routeManager);
 
 $routeManager->addRoute(new Route('get', '/', 'ControllerToCall@methodToCall'));
 $routeManager->addRoute(new Route('get', '/about', 'PagesController@showAbout'));
