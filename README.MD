@@ -55,29 +55,6 @@ $method = $routeInfo['method'];
 $controller->$method($routeInfo['variables']);
 ```
 
-#### Store Routes In A File
-
-You can also store all of your routes in a separate file for easy access. The following is an example file saved as routes.php
-```php
-<?php
-return [
-    ['get', '/', 'Pages@showIndex'],
-    ['get', '/auth/login', 'Auth@showLogin'],
-    ['post', '/auth/login', 'Auth@handleLogin'],
-    ['get', '/profile/(any)', 'Pages@getProfile']
-];
-```
-
-Instead of using addRoute() in our main application we'll want to use the loadRoutes() method or place the routes file in the collection constructor.
-```php
-$collection->loadRoutes('routes.php');
-
-OR
-
-$filePath = __DIR__ . '/routes.php';
-$collection = new \NickStuer\EasyRouter\RouteManager($filePath);
-```
-
 ## License
 
 Easy Router is licensed under the [MIT license](http://opensource.org/licenses/MIT)
