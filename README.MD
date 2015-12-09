@@ -27,10 +27,10 @@ include (__DIR__ . '/vendor/autoload.php');
 $routeManager = new \NickStuer\EasyRouter\RouteManager();
 $dispatcher = new \NickStuer\EasyRouter\Dispatcher($collection);
 
-$routeManager->addRoute('get', '/', 'ControllerToCall@methodToCall');
-$routeManager->addRoute('get', '/about', 'PagesController@showAbout');
-$routeManager->addRoute('get', '/contact', 'PagesController@showContact');
-$routeManager->addRoute('get', '/profile/(abc)', 'ProfileController@showProfile');
+$routeManager->addRoute(new Route('get', '/', 'ControllerToCall@methodToCall'));
+$routeManager->addRoute(new Route('get', '/about', 'PagesController@showAbout'));
+$routeManager->addRoute(new Route('get', '/contact', 'PagesController@showContact'));
+$routeManager->addRoute(new Route('get', '/profile/(abc)', 'ProfileController@showProfile'));
 
 try {
     $dispatcher->dispatch();
@@ -44,6 +44,10 @@ try {
 
 $routeInfo = $dispatcher->getMatchedRoute();
 
+/**
+* It's recommended that you use a DI container to create the controller class to
+* automatically insert the required dependencies.
+*/
 $controller = new $routeInfo['controller'];
 $method = $routeInfo['method'];
 $controller->$method($routeInfo['variables']);
