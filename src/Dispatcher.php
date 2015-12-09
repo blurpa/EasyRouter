@@ -78,18 +78,19 @@ class Dispatcher
 
         /**
          * Cycle through all of the routes in the routes array to locate a match.
+         * Replace / in the route with \/ for regex matching.
          * Replace (any) in the route with (\w+) for regex matching.
          * Replace (int) in the route with (\d+) for regex matching.
          * Replace (abc) in the route with ([A-Za-z]+) for regex matching.
          */
         foreach ($this->manager->getRoutes() as $route)
         {
-            $partialPattern = str_replace('/', '\/', $route->getPath());
-            $partialPattern = str_replace('(any)', '(\w+)', $partialPattern);
-            $partialPattern = str_replace('(int)', '(\d+)', $partialPattern);
-            $partialPattern = str_replace('(abc)', '([A-Za-z]+)', $partialPattern);
+            $regexPattern = str_replace('/', '\/', $route->getPath());
+            $regexPattern = str_replace('(any)', '(\w+)', $regexPattern);
+            $regexPattern = str_replace('(int)', '(\d+)', $regexPattern);
+            $regexPattern = str_replace('(abc)', '([A-Za-z]+)', $regexPattern);
 
-            $regexPattern = "/^" . $partialPattern . '$/i';
+            $regexPattern = "/^" . $regexPattern . '$/i';
 
             if (preg_match($regexPattern, $this->requestUri) ) {
                 $routeMatches = true;
@@ -119,19 +120,15 @@ class Dispatcher
          * Example: '/profile/show/(any)/(int)/(abc)'
          */
 
-        $strippedRoutePath = str_replace('/(any)', '', $route->getPath());
-        $strippedRoutePath = str_replace('/(int)', '', $strippedRoutePath);
-        $strippedRoutePath = str_replace('/(abc)', '', $strippedRoutePath);
-
-        if (strlen($strippedRoutePath) >= 1) {
-            $strippedRoutePath = substr_replace($this->requestUri, '', strpos($this->requestUri, $strippedRoutePath), strlen($strippedRoutePath));
-        }
-
-        $strippedRoutePath = ltrim($strippedRoutePath, '/');
-
         $variables = array();
-        if ($strippedRoutePath != '') {
-            $variables = explode('/', $strippedRoutePath);
+
+        $routePathArray = explode('/', ltrim($route->getPath(), '/'));
+        $requestUriArray = explode('/', ltrim($this->requestUri, '/'));
+
+        foreach ($routePathArray as $key => $item) {
+            if ($item === '(abc)' || $item === '(int)' || $item === '(any)') {
+                $variables[] = $requestUriArray[$key];
+            }
         }
 
         /**

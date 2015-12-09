@@ -9,10 +9,13 @@ class testRouteManager extends \PHPUnit_Framework_TestCase
         $path = '/test';
         $action = 'test@test';
 
-        $collection = new \NickStuer\EasyRouter\RouteManager();
-        $collection->addRoute($httpMethod, $path, $action);
+        $manager = new \NickStuer\EasyRouter\RouteManager();
+        $manager->addRoute(new \NickStuer\EasyRouter\Route($httpMethod, $path, $action));
 
-        $routes = $collection->getRoutes();
+        /**
+         * @var \NickStuer\EasyRouter\Route[] $routes
+         */
+        $routes = $manager->getRoutes();
 
         $this->assertEquals($httpMethod, $routes[0]->getHttpMethod());
         $this->assertEquals($path, $routes[0]->getPath());
