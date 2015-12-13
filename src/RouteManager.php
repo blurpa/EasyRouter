@@ -30,9 +30,9 @@ class RouteManager
     /**
      * Add a route to the route array.
      *
-     * @param Route $route
+     * @param RouteInterface $route
      */
-    public function addRoute(Route $route)
+    public function addRoute(RouteInterface $route)
     {
         $route->verify();
         $this->routes[] = $route;
