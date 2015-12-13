@@ -29,6 +29,8 @@ class Dispatcher
      *
      * To mock requests: Set $createFromGlobals to false and add a $requestMethod and $requestUri.
      *
+     * TODO: Remove $createFromGlobals and use a psr-7 compliant HTTP object to get the request.
+     *
      * @param RouteManager $manager
      *
      * @param bool|true $createFromGlobals

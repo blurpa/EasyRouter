@@ -4,8 +4,6 @@ namespace NickStuer\EasyRouter;
 
 class Route implements RouteInterface
 {
-
-
     /**
      * @var string
      */

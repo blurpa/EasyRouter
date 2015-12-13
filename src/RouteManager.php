@@ -55,7 +55,7 @@ class RouteManager
      * TODO: Check if route is valid.
      *
      * @param RouteInterface $route
-     * 
+     *
      * @return bool
      */
     protected function isValidRoute(RouteInterface $route)
@@ -63,6 +63,5 @@ class RouteManager
         $routeHttpMethod = $route->getHttpMethod();
 
         return (in_array($routeHttpMethod, $this->allowedMethods));
-
     }
 }
