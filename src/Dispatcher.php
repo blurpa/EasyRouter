@@ -43,20 +43,28 @@ class Dispatcher
         $this->requestMethod = strtolower(($createFromGlobals) ? $_SERVER['REQUEST_METHOD'] : $requestMethod);
         $requestUri = ($createFromGlobals) ? $_SERVER['REQUEST_URI'] : $requestUri;
 
-        /**
-         * Removes GET variables from the URI.
-         *
-         * Example: http://www.website.com/about?name=Nick returns /about
-         */
-        $requestUri = parse_url($requestUri, PHP_URL_PATH);
+        $this->requestUri = $this->normalizeUri($requestUri);
+    }
 
-        /**
-         * Removes the trailing slash in the URI if it's there.
-         *
-         * Example:  http://www.website.com/about/ returns /about
-         * Example: http://www.website.com returns /
-         */
-        $this->requestUri = ($requestUri !== '/') ? rtrim($requestUri, '/') : $requestUri;
+    /**
+     * Removes the trailing slash in a URI if it's there.
+     *
+     * Example:  http://www.website.com/about/ returns /about
+     * Example: http://www.website.com returns /
+     *
+     * Also removes GET variables from the URI.
+     *
+     * Example: http://www.website.com/about?name=Nick returns /about
+     *
+     * @param $uri
+     *
+     * @return string
+     */
+    protected function normalizeUri($uri)
+    {
+        $uri = parse_url($uri, PHP_URL_PATH);
+        $uri = ($uri !== '/') ? rtrim($uri, '/') : $uri;
+        return $uri;
     }
 
 
