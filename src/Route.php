@@ -4,10 +4,7 @@ namespace NickStuer\EasyRouter;
 
 class Route implements RouteInterface
 {
-    /**
-     * @var string[]
-     */
-    private $allowedMethods = array('get', 'post');
+
 
     /**
      * @var string
@@ -60,15 +57,5 @@ class Route implements RouteInterface
     public function getAction()
     {
         return $this->action;
-    }
-
-    /**
-     * Verifies that the route's http method is in the allowed array.
-     */
-    public function verify()
-    {
-        if (!in_array($this->httpMethod, $this->allowedMethods)) {
-            throw new Exceptions\MethodNotAllowedException;
-        }
     }
 }

@@ -21,6 +21,4 @@ class testRouteManager extends \PHPUnit_Framework_TestCase
         $this->assertEquals($path, $routes[0]->getPath());
         $this->assertEquals($action, $routes[0]->getAction());
     }
-
-
 }
