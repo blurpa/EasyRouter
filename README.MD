@@ -5,11 +5,13 @@
 THIS PROJECT IS NOT BEING MAINTAINED AT THE MOMENT!
 
 This is a basic PHP router mainly created for learning purposes. This works well for when you don't want the router
-function of your application tied so tightly to the rest of your application. It provides easy to read code as well.
+function of your application tied tightly to the rest of your application.
 
-Supports PHP 7.
+Supports PHP 7+.
 
-If you have any suggestions or bug fixes please feel free to let me know.
+If you have any suggestions or bug fixes please feel free to do modify.
+
+## Example Usage
 
 Specify the controller and the controller method to call when a route is matched using addRoute().
 
@@ -17,8 +19,6 @@ To match wild cards use the following phrases in your route path:
 * (any) - Matches any combination of upper case/lower case letters and numbers.
 * (int) - Matches only integers.
 * (abc) - Matches any combination of upper case/lower case letters.
-
-## Example Usage
 
 #### Typical Use of Easy Router
 ```php
